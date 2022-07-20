@@ -1,0 +1,134 @@
+1. createElement
+
+다음과 같이 JavaScript를 통해 HTML 요소를 생성하기 위하여 createElement()를 사용할 수 있습니다.
+
+let div = document.createElement('div');
+
+하지만 CSS class를 새로 만들어진 div에 추가하려면 어떻게 해야 하나요?
+
+let div = document.createElement('div class=myDiv');
+
+
+2. append 함수는 선택한 요소의 내용의 끝에 새로운 콘텐츠를 추가할 수 있습니다.
+
+append( '<li>Test3</li>' );
+
+결과
+
+<body>  
+	<ul>    
+		<li>Test1</li>    
+		<li>Test2</li>    
+		<li>Test3</li>  
+	</ul>
+</body>
+
+
+3. this란 JavaScript 예약어다.
+
+3-1. 전역에서의 this
+✅ 전역에서의 this는 기본적으로 window 객체입니다.
+	console.log(this); // window {...}
+
+3-2. 일반 함수의 this
+✅ 일반 함수에서의 this는 window입니다.
+	function whatIsThis() {
+ 		console.log(this);
+	}
+
+	whatIsThis(); // window
+함수가 호출될 때 특별히 binding 된 사항 없이 독립적으로 실행되었습니다. 이와같이 전역에서 실행된 함수 내부의 this는 window가 됩니다.
+
+단, 예외 상황이 하나 있습니다.
+
+✅ strict mode에서는 undefined입니다.
+
+	function whatIsThis() {
+		'use strict'
+		console.log(this);
+	}
+
+	whatIsThis(); // undefined
+
+3-3. 객체 메서드(method)의 this
+✅ 객체의 method로 호출될 때 this는 해당 객체를 가리킵니다.
+
+	var apple = '독이 든 사과';
+	var home = {
+		apple: '맛있는 사과',
+		eatApple: eatAppleFn
+	}
+
+	function eatAppleFn() {	
+		console.log(`백설공주가 ${this.apple}를 먹습니다.`);    
+	}
+
+	// (1) 객체 method 호출
+	home.eatApple(); // 백설공주가 맛있는 사과를 먹습니다.
+
+	// (2) 함수 직접 호출
+	eatAppleFn(); // 백설공주가 독이 든 사과를 먹습니다.
+
+4. remove 함수는 선택한 요소를 제거할 때 사용하거나, 요소 내의 태그들을 삭제할 때 사용합니다.
+
+	특정 선택자를 가진 요소를 제거할 때는 괄호 안에 선택자를 넣습니다. 예를 들어
+
+	$( 'p' ).remove( '.rm' );
+	은 클래스 값으로 rm을 가진 p 요소를 제거합니다. 다음과 같이 해도 결과는 같습니다.
+
+	$( 'p.rm' ).remove();
+
+5. setAttribute = .setAttribute()는 선택한 요소(element)의 속성(attribute) 값을 정합니다.
+
+
+<body>
+	<input type="checkbox">
+	<span>기본 체크 박스</span>
+	<input type="checkbox" id="check-test">
+	<span class="check-text">체크된 박스</span>
+	<script>
+	let checkTest = document.querySelector('#check-test');
+	//속성 값 설정
+	checkTest.setAttribute('checked',true);
+	</script>
+</body>
+
+6. insertAdjacentHTML() 메서드는 HTML 특정 위치 안에 원하는 node들을 추가한다. 이미 사용 중인 element는 다시 파싱 하지 않는다. 그러므로 element 안에 존재하는 element를 건드리지 않는다. 
+	document.getElementById('div1').insertAdjacentHTML('beforeend', '[HTML string]');
+	beforebegin, afterbegin, beforeend, afterend  등 첫번째 Parameter에 string을 insert할 위치를 지정할 수 있습니다.
+
+	<!-- beforebegin -->
+	<p>
+  	<!-시작 후->
+  	foo
+  	<!-이전->
+	</p>
+	<!-이후->
+
+7.insertAdjacentText() 메서드는 특정 element를 기준으로 앞뒤, 자식으로의 처음, 마지막 위치로 노드 삽입 또는 이동을 하게 도와주는 메서드이다.
+
+	insertAdjacentText(where, data)
+
+	Parameters
+	where
+메서드가 호출된 요소에 상대적인 위치를 나타내는 문자열입니다. 다음 문자열 중 하나여야 합니다.
+
+	'beforebegin' : element 자체 이전.
+	'afterbegin' : 첫 번째 자식 앞에 element 바로 안에 있습니다.
+	'beforeend' : 마지막 자식 다음 element 바로 안에 있습니다.
+	'afterend' : element 자체 이후 .
+
+	data
+메서드가 호출되는 요소와 관련된 지정된 위치에 삽입할 새 텍스트 노드를 생성할 문자열입니다 where
+
+8. push()
+
+array.push( 추가할 요소 )
+
+배열의 맨 뒤에 요소를 추가합니다.
+
+	const color = ["red", "white"];
+	console.log(color); // ["red", "white"]
+
+	color.push("black");
+	console.log(color); // ["red", "white", "black"]

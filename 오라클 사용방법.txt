@@ -1,0 +1,373 @@
+-DB란 서버의 정보를 저장하며 주로
+
+1. 숫자
+2. 문자
+3. 날짜
+
+이고 표(table) 형식으로 정보를 저장, 그것을 조회, 변경 등의 목적을 가지고 있다.
+(http://localhost:8080/apex/) 인터넷 주소-
+
+
+-들어가는 방법-
+
+명령 프롬프트 들어가서
+
+sqlplus.exe
+
+system(아이디)
+
+oracle(비밀번호)
+
+CREATE USER acorn(아이디) IDENTIFIED BY acorn1234(비밀번호);    (사용자 생성)
+
+GRANT CONNECT, RESOURCE TO acorn;   (접속 권한 부여master)
+
+생성 된 뒤부터는 껐다 켜서 로그인
+
+splplus
+
+acorn
+
+acorn1234
+
+scott/tiger
+
+-테이블 생성-
+
+CREATE TABLE member(표 이름) 
+( num NUMBER, name VARCHAR2(12), addr VARCHAR2(20) ); 칼럼 제작
+                         최대 12글자            최대 20글자
+
+
+CREATE TABLE emp2
+(empno NUMBER(4) PRIMARY KEY, ename VARCHAR2(12), job VARCHAR2(12), deptno NUMBER(2) REFERENCES(이것의 의미는 참조하겠다는 의미이다.) dept2(deptno));
+
+
+
+
+-현재 상황 확인- 
+
+DESC member(표이름)
+
+
+-내용 추가하고 싶을 때-
+INSERT INTO member( num, name, addr) VALUES( 1, '김구라', '노량진' );     -   문자 데이터 입력시 무조건 '를 사용한다. "는 안 됨.
+
+
+-작성한 내용 조회-
+SELECT num, name, addr FROM member;
+
+
+-원하는 부분만 조회 가능-
+SELECT num, name, addr
+FROM member
+WHERE num=1;
+
+
+SELECT num, name, addr
+FROM member
+WHERE num >=2 ;
+
+
+-수정 하는 법-
+
+UPDATE member
+SET name='이정호'
+WHERE num=1;
+
+
+-삭제하는 법-
+
+DELETE FROM member
+WHERE-num=3;
+
+
+-전체 표 삭제하는 법-
+DROP TABLE member;
+
+
+-저장하는 법-
+COMMIT;
+
+
+-복구 방법-
+
+ROLLBACK;
+
+
+-날짜는 SYSDATE라고 씀(당일)
+
+
+SELECT 'HELLO' FROM dual;  -글자 입력 창-
+
+
+
+방향키 위아래 를 사용해서 반복해서 쓸 수 있다.
+
+delete from member; 처럼 조건을 안 주면 전부 다 삭제됨
+
+sysdate : 오늘 날짜와 현재 시간을 알려주는 역할, 
+
+명령 프롬프트 상에서는 일단 연월일까지만 보임
+
+create sequence test_seq; 시퀀스 생성
+
+select 10 from member; 멤버 테이블의 로우만큼 10을 출력한다
+
+select ‘hello’ from member; 멤버 테이블의 로우 갯수만큼 ‘hello’를 출력한다
+
+ed를 사용하면 메모장이 나타나는 데 거기서 입력후 저장한 뒤 /를 입력하면 행이 자동 생성됨. 대신 생성후 commit; 해야됨.
+
+높은 순서대로 나열할 때는 테이블 명 뒤에 ORDER BY '해당열 이름' +
+
+내림차순이면 DESC을 적는다.
+오름차순이면 ASC를 적는다.
+
+ORDER BY job ASC, sal DESC;
+처럼 두가지의 열을 정렬하려고 할때는 직업이 몰려있고 그 위에 급여순으로 정렬된다.
+
+사원번호, 이름, 급여를 볼 때, 급여 2000이상의 사람들만 나열하고 싶을 때는 맨 마지막에 수식어를 넣는다.
+WHERE sal >= 2000;
+
+COLUMN명을 바꾸고 싶을 때는 ed에 들어가서 바꾸고 싶은 해당 COLUMN 이름 뒤에 AS ''을 붙인다.
+
+host를 치면 탐색기로 나가진다
+
+다시 들어오고 싶을 땐 exit
+
+SPOOL my_spool.txt 라고 치면 앞으로 텍스트파일로 기록하겠다는 의미이다.
+
+SPOOL OFF 라고 치면 여기까지 기록하겠다는 의미
+
+ROWNUM = 일렬로 세워놓으며 행번호를 부여한다.
+
+INNER JOIN =  두 개의 테이블을 합쳐서 원하는 정보를 조회하기 위함.
+	SELECT ENAME, EMP.DEPTNO, DNAME
+	FROM EMP, DEPT
+	WHERE EMP.DEPTNO = DEPT.DEPTNO;
+
+	SELECT ename, hiredate, EMP.DEPTNO, DNAME(더 많이 쓰이는 방법)
+	FROM EMP
+	INNER(생략가능) JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO
+	WHERE DNAME='ACCOUNTING'
+
+	SELECT ENAME, HIREDATE, DEPTNO, DNAME)(두 개의 테이블의 컬럼중 이름이 같이 공존한 경우 사용 가능)
+	FROM EMP
+	INNER(생략가능) JOIN DEPT USING(DEPTNO)
+	WHERE DNAME= 'ACCOUNTING';
+
+OUT JOIN =
+
+		오른쪽이 더 나왔으므로
+		RIGHT JOIN 이라고 한다.
+
+	SELECT EMPNO, DEPT.DEPTNO, DNAME
+	FROM EMP, DEPT
+	WHERE EMP.DEPTNO(+) = DEPT.DEPTNO
+
+	     EMPNO     DEPTNO DNAME
+	---------- ---------- ----------------------------
+ 	     7369         20 RESEARCH
+  	     7499         30 SALES
+  	     7521         30 SALES
+    	     7566         20 RESEARCH
+  	     7654         30 SALES
+    	     7698         30 SALES
+   	     7782         10 ACCOUNTING
+   	     7839         10 ACCOUNTING
+   	     7844         30 SALES
+   	     7900         30 SALES
+    	     7902         20 RESEARCH
+    	     7934         10 ACCOUNTING
+            	        40 OPERATIONS
+
+
+따라서 이렇게 나타낼 수 있다.(결과 값은 같음)
+
+	SELECT EMPNO, DEPTNO, DNAME
+	FROM EMP
+	RIGHT OUTER JOIN DEPT USING(DEPTNO);
+
+
+서브쿼리
+
+단일행 서브 쿼리 테스트
+
+'SMITH' 가 근무하는 부서명을 서브쿼리를 이용해서 출력해 보세요.
+
+	SELECT dname
+	FROM dept
+	WHERE deptno = (SELECT deptno FROM emp WHERE ename='SMITH');
+	
+다중행 서브 쿼리 테스트
+
+직책이 MANAGER 인 사원이 속한 부서의 부서번호와 부서명과 부서의 위치를 출력해보세요.
+
+	SELECT deptno, dname, loc
+	FROM dept
+	WHERE deptno IN(SELECT deptno FROM emp WHERE job='MANAGER');
+
+
+
+select table_name from user_tables;
+	> 테이블 이름 알수있음
+
+- desc user_sequences
+
+> desc user_tables
+	만들어진 테이블 검색
+> select table_name from user_tables;
+> desc user_sequences
+	만들어진 시퀀스 검색
+> select sequence_name, last_number
+  from user_sequences;
+
+> desc user_constraints
+	만들어진 제약조건
+> select table_name, constraint_name, constraint_type
+  from user_constraints;
+	어떤 테이블에 어떤 제약조건이 있는지
+
+R = 참조 reference
+C = not null
+P = primary
+
+> desc user_cons_columns
+  제약조건 이름, 테이블명, 칼럼명
+  제약조건에 대한 칼럼명을 알고싶다면
+
+ 
+> select constraint_name, column_name
+  from user_cons_columns
+  where table_name='EMP2';
+  (EMP2에 대한 제약조건과 칼럼명)
+
+
+
+- 테이블 만들시, 제약조건 이름 생성하는 법
+member_num_pk = member table에 number column에 primary-key
+member_name_nn = member table에 name column에 not-null
+
+
+
+종류
+ 
+(1) NOT NULL : NULL 로 입력이 되어서는 안되는 칼럼에 부여하는 조건으로
+    칼럼 레벨에서 만 부여할수 있는 제약조건이다.
+(2) UNIQUE KEY (유일키) : 저장된 값이 중복되지 않고 오직 유일하게 유지되어야
+    할때 사용하는 제약조건이다. (NULL 은 허용된다)
+(3) PRIMARY KEY (대표키) : NOT NULL 조건과 UNIQUE KEY 를 합친 조건이다.
+(4) CHECK : 조건에 맞는 데이터만 입력되도록 조건을 부여하는 제약 조건
+(5) FOREIGN KEY (외래키) : 부모 테이블의 PRIMARY KEY 
+
+
+- 테이블 만들기
+sql>CREATE TABLE test(num NUMBER);
+- 칼럼 추가
+sql>ALTER TABLE test ADD(name VARCHAR2(10));
+- 칼럼 수정
+sql>ALTER TABLE test MODIFY(name VARCHAR2(20));          -NOT NULL을 넣을 때도 MODIFY를 사용-
+- 칼럼의 이름 바꾸기
+sql>ALTER TABLE test RENAME COLUMN name TO myname;
+- 칼럼 삭제
+sql>ALTER TABLE test DROP(myname);
+
+
+테이블을 그룹으로 나누고 싶을 때 1~3, 4~6, 7~9, 10~12
+
+ SELECT *
+    FROM
+    (SELECT result1.*, ROWNUM AS rnum(로우넘에 별칭을 지정해 주어야 된다.)
+    FROM
+      (SELECT empno, ename, sal
+      FROM emp
+      ORDER BY sal ASC)  result1)
+      WHERE rnum BETWEEN 4 AND 6
+
+
+-제약조건을 확인하고 싶을때-
+
+	SELECT TABLE_NAME, CONSTRAINT_NAME, CONSTRAINT_TYPE
+	FROM USER_CONSTRAINTS;
+
+-컬럼명 바꿀 때-
+
+ALTER TABLE member
+    RENAME COLUMN addr TO my_addr;
+
+-글자수 바꿀 때-
+ALTER TABLE member
+   MODIFY(addr VARCHAR2(20));
+
+
+-시퀀스-
+
+
+CREATE SEQUENCE MY_SEQ               (시퀀스 생성법)
+	INCREMENT BY 10
+	START WITH 100
+	NOCACHE
+	
+
+	SELECT TEST_SEQ.NEXTVAL FROM dual;   (숫자 자동으로 입력)
+
+	SELECT TEST_SEQ.CURRVAL FROM dual;   (현재의 숫자 표시)
+
+
+
+- 복붙-
+
+
+INSERT INTO member2 SELECT * FROM member;  (member2에 member를 복붙하기)
+
+CREATE TABLE member3 AS SELECT * FROM member;
+
+
+
+CREATE TABLE emp2 AS SELECT * FROM emp WHERE 1=2;  -ROW만 복사-
+
+
+연산자
+10%인상		sal*1.1
+3000이상 	>=3000
+3000이하 	<=3000 
+다를때 		!=
+같을때 		=
+초과 		>
+미만 		<
+AND 		AND = 두가지 이상의 다른 컬럼의 조건이 필요할 때
+OR 		OR = 두가지 이상의 같은 컬럼의 조건이 필요할 때
+IN 		IN = OR과 비슷한 의미
+ANY 		ANY = 3가지 조건이 있으면 3가지 조건 중 하나만 맞아도 인정
+ALL 		ALL = 3가지 조건이 있으면 3가지 모두 맞아야 인정
+BETWEEN	 	BETWEEN = BETWEEN 1000 AND 2000; 처럼 1000에서 2000사이, 사람 이름 사이도 인정
+NULL 		NULL = 커미션이 NULL인 사원의 이름, 커미션 출력시 마지막에 WHERE comm IS NULL;의 형태로 작성
+NOT NULL 	NOT NULL = NULL이 아닌 사람 출력 WHERE comm IS NOT LULL; 의 형태로 작성
+LIKE '%J%' 	LIKE '%J%' = J로 시작하면 J%로 작성 J로 끝나면 %J로 작성
+LIKE '_A% 	LIKE '_A%' = 
+연결연산자	|| = java에서는 +로 쓰이지만 DB에서는 ||로 쓰인다. ename|| '의 직업은' || job FROM emp; 과 같은 형		태로 사용 가능(이 경우에는 ename과 job의 COLUMN이 하나로 합쳐진다. 이 경우 이름이 이상함으로 			COLUMN을 AS로 이름 변경한다.)
+
+
+
+
+
+- 일렬로 나열해줌-
+SET LINESIZE 200;
+COLUMN ENAME FORMAT A10;
+COLUMN JOB FORMAT A10;
+SET PAGESIZE 20;
+
+
+바탕화면에 init 으로 만들어놓고 @하고 옮겨야댐
+
+
+테이블명 = emp
+
+empno = 사원번호
+ename = 사원이름
+job = 직업, 직책
+mgr = manager's empno (매니저, 직속 상관의 사원번호)
+hiredate = 입사일
+sal  = 봉급
+comm = 성과급, 보너스
+deptno = 부서번호

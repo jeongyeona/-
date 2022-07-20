@@ -1,0 +1,116 @@
+﻿오라클 함수(function) -문자열-
+
+1. SELECT CHR(65) FROM emp; 를 사용하면 emp가 12개의 행을 가지고 있기 때문에 12개의 행만 나열된다.
+
+2. SELECT CONCAT(ename, ' 님' ) name FROM emp ; 를 사용하면 칼럼이 name으로 변경되고 나열된 행에 이름+님이 붙는다.
+
+3. SELECT INITCAP( 'hello world') FROM DUAL; 를 사용하면 시작문자를 대문자로 바꿔준다. (Hello Word)
+
+4. SELECT UPPER( 'hello!' ) FROM DUAL; 를 사용하면 문자 전체를 대문자로 바꿔준다.
+
+5. SELECT LOWER( 'HELLO!' ) FROM DUAL; 를 사용하면 문자 전체를 소문자로 바꿔준다.
+
+6. SELECT LPAD( 'HI', 10 , '*' ) FROM DUAL; 를 사용하면 문자열 왼쪽에 *가 10개 채워진다. (********HI) [자릿수 이내로]
+
+7. SELECT RPAD( 'HELLO', 15 , '^' ) FROM DUAL; 를 사용하면 문자열 오른쪽에 ^가 15개 채워진다. (HELLO^^^^^^^^^^) [처음 설정한 자릿수를 초과할 수는 없다]
+
+8. SELECT LTRIM( 'ABCD' , 'A' ) FROM DUAL; 를 사용하면 나타나는 문자에서 왼쪽 A가 제외된다.
+
+9. SELECT RTRIM( 'ACACBCD', 'CD') FROM DUAL; 를 사용하면 나타나는 문자에서 오른쪽 CD가 제외된다.
+
+10. SELECT REPLACE( 'Hello mimi' , 'mimi', 'mama' )  FROM DUAL; 를 사용하면 문자열 1에 있는 문자열중 문자열2를 찾아서 문자열3 으로 바꿔준다. (Hello mama)
+
+11. SELECT SUBSTR( 'ABCDEFGHIJ' , 3 , 5) FROM DUAL; 문자열 중에 3번째 문자부터 5문자를 배열한다.
+
+12. SELECT LENGTH( 'ABCDE' ) FROM DUAL; 를 사용하면 문자열의 길이를 반환한다. (5)
+
+13. SELECT LEAST( 'AB','ABC','D') FROM DUAL; 를 사용하면 문자열 중에서 가장 앞의 값을 리턴한다. (AB)
+
+14. SELECT NVL(NULL, '비었네') FROM DUAL; 를 사용하면 NULL인 경우 '비었네'가 대신 배열된다. 
+
+
+
+함수 예제
+
+1. WHERE SUBSTR(ename, 2, 1) = 'A';  =  이름의 두번째 글짜가 A인 사람
+
+2. WHERE LENGTH(ename) >= 5 ;  =  사원이름이 5자 이상인 사원들
+
+
+ 
+오라클 함수 -숫자-
+
+1. SELECT ABS(-10) FROM DUAL; 를 사용하면 숫자의 절대값을 반환한다. (10)
+
+2. SELECT CEIL (3.1234) FROM DUAL; 를 사용하면 반올림으로 높게잡힌 숫자가 배열된다. (4)
+ 
+3. SELECT FLOOR(2.888829) FROM DUAL; 를 사용하면 반올림으로 아래로 잡힌 숫자가 배열된다. (2)
+ 
+4. SELECT ROUND(5.2345, 3) FROM DUAL; 를 사용하면 숫자를 자리수+1번째 위치에서 반올림한다. (5.235)
+
+5 SELECT MOD(10,3) FROM DUAL; 를 사용하면 숫자1을 숫자2로 나눈 나머지를 리턴한다. (1) javascript에서의 %
+
+6. SELECT TRUNC(12.23532576 , 2) FROM DUAL; 를 사용하면 소수점이하 자릿수까지만 나타낸다. 나머지는 잘라낸다. (12.23)
+
+
+오라클 함수 -날짜- 
+
+1. SYSDATE  = > 현재 시간을 리턴한다.
+ 
+2. SELECT ADD_MONTHS(SYSDATE, 10) FROM DUAL; 를 사용하면 현재 날짜의 10개월을 더한 값을 반환
+
+3. SELECT LAST_DAY(SYSDATE) FROM DUAL; 를 사용하면 현재 달의 마지막 날짜를 알 수 있다.
+
+4. SELECT empno,MONTHS_BETWEEN(SYSDATE, HIREDATE) 근무개월  FROM emp ; 
+
+
+오라클 함수 -날짜 객체 => 원하는 형식의 문자열로 변환-
+
+SELECT TO_CHAR(SYSDATE, '여기에 작석한 형식') FROM dual;
+
+1. 'YYYY-MM-DD'
+
+2. 'YY.MM.DD'
+
+3. 'YY" 년 "MM" 월 "DD" 일' (중간에 한글을 넣고 싶으면 ""로 감싸주어야 한다.)
+
+4. 'HH:MI:SS'
+
+5. 'AM HH:MI:SS'
+
+6. 'PM HH:MI:SS' 
+
+7.  'HH24:MI:SS'
+
+8.  'HH24" 시 "MI" 분 "SS" 초 " (중간에 한글을 넣고 싶으면 ""로 감싸주어야 한다.)
+
+9. 'YYYY.MM.DDDYAMHH:MI:SS'
+
+
+오라클 함수 -문자열을 숫자로 바꾸고 싶을 때-
+
+1. SELECT TO_NUMBER('999')+1 FROM DUAL; (1000)
+
+
+오라클 함수 -문자열을 날짜형태로 바꾸고 싶을 때-
+
+1. SELECT TO_DATE('2012-12-12') FROM DUAL; 문자열이 날짜형식으로 바뀜  (12/12/12)
+
+
+오라클 함수 -복수행 함수-
+
+1. COUNT(칼럼명)  =>해당 칼럼이 존재하는 ROW 의 갯수를 반환한다. 단, 저장된 데이터가 NULL 인 칼럼은 세지 않는다.
+(1줄로 반환)
+ 
+2. SELECT SUM(sal) FROM emp; 해당 값을 모두 더한 값으로 불러온다.
+
+3. SELECT AVG(sal) FROM emp; 해당 값을 모두 더한 후 ROW의 갯수로 나눈 평균값을 리턴한다.  NULL 칼럼은 제외된다.
+
+4. SELECT MAX(sal) FROM emp; 최대값을 리턴한다. 가장 높은 숫자
+
+5. SELECT MIN(sal) FROM emp; 최소값을 리턴한다. 가장 낮은 숫자
+
+
+오라클 함수 - GROUP BY 절(그룹으로 묶을 때 사용한다.)-
+
+1. 

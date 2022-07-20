@@ -1,0 +1,119 @@
+git
+
+p3 added       ○ master HEAD   reset HEAD~(~횟수만큼 몇 번 뒤로갈지 표시)
+                           ∧
+p2 added       ○ master HEAD
+                           ∧
+p1 added       ○ master HEAD
+                           ∧
+index.html add ○ master HEAD
+
+
+설정
+
+git init (git으로 관리하겠다는 선언부! 맨 처음 할 것) '깃 저장소'라고 부름
+
+git status (현재 상태 확인)
+
+git add index.html (현재 상태 올리기)
+
+git add . (모든 파일 올리기)
+
+git commit -m "index.html added(이름)" (현재 상태 사진 찍어두기)
+
+git log (지금까지 저장한 것 목록)
+
+git reset --hard HEAD~(~횟수만큼 몇 번 뒤로갈지 표시) (뒤에 저장했던 곳으로 돌아가기)
+
+2. 새로운 브랜치 만들기 활용(서브에서 안전하게 작업)
+
+HEAD  lab1  ○
+                  ＼
+                     ○ master
+                     ∧
+                     ○
+                     ∧
+                     ○
+
+
+git branch (master위치 확인)
+
+git branch 브랜치명 (새로운 브랜치 만들기, HEAD 옯기기 위해, 새로운 일거리 맡을 때)
+
+git checkout lab1 ('lab1'으로 HEAD를 옮김)
+
+
+3. 브랜치 병합하기
+
+git merge lab1 (마스터랑 lab1이 합쳐짐)
+
+git restore index.html(병합하기 전으로 돌려줌)
+
+병합할 때 충돌이 일어나면 수정 후 add commit하면 된다.
+
+
+
+
+
+git gui - Repository - visualize all branch history 클릭 이력 확인
+
+git gui &를 사용하면 명령어도 같이 사용 가능
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+git hub
+
+wjddus0118@gmlil.com
+
+04chzhchzh12
+
+git hub 토큰
+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
+
+https://docs.google.com/spreadsheets/d/1KmX53D9_9gJ5TCFr3YY4ZjiYJSKDEZzaOKdbcprZtzw/edit#gid=0
+
+
+1. 원격 저장소에 등록하기(git init 하나당 저장소 하나로 침)
+git remote add origin https://github.com/KJEONGYEON/my_repo.git (명령어로 치기)
+
+2. git remote -v 등록되었는지 확인하기
+
+3. git push -u origin master
+
+4. 창이 뜨면 토큰 입력 후 등록
+
+5. 원격 저장소에 올리게 되면 git에서는 origin/master라는 브랜츠가 생긴다.
+
+
+
+클론 생성 (집에서 다시 다운받고 올릴 때) 용어로는 fetch라고 한다.
+
+1. git clone 주소(https://github.com/KJEONGYEON/acorn.git) 명령어 입력
+
+2. my_home안에 파일이 생성됨으로 안으로 들어가서 작업 개시 (cd acorn)
+
+
+한 번 clone한 뒤 부터는 그냥 내려받기 가능
+
+1.  git fetch origin 입력
+
+2. git merge origin/master 를 입력하여 합친다.
+
+3. 학원과 집의 수정이 다른 경우 합쳐질 때
+디폴트 화면이 등장하는데 :wq를 누르면 된다.
+
+
+
+
